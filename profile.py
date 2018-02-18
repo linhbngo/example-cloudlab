@@ -33,16 +33,19 @@ for i in range(4):
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo wget http://apache.cs.utah.edu/hadoop/common/hadoop-3.0.0/hadoop-3.0.0.tar.gz"))
     node.addService(rspec.Execute(shell="/bin/sh",
+                                  command="sudo mkdir -p /opt/hadoop"))
+    node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo tar xzf hadoop-3.0.0.tar.gz -C /opt/hadoop"))
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo wget https://github.com/linhbngo/example-cloudlab/raw/master/master -O /opt/hadoop/conf/master"))
+                                  command="sudo cp /local/repository/master -O /opt/hadoop/conf/master"))
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo wget https://github.com/linhbngo/example-cloudlab/raw/master/slaves -O /opt/hadoop/conf/slaves"))
-    node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo sleep 60"))
-    node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo /opt/hadoop/hadoop-daemon.sh start datanode"))
-    if i == 0:
+                                  command="sudo cp /local/repository/slaves -O /opt/hadoop/conf/slaves"))
+    if i != 0:
+        node.addService(rspec.Execute(shell="/bin/sh",
+                                      command="sudo sleep 60"))
+        node.addService(rspec.Execute(shell="/bin/sh",
+                                      command="sudo /opt/hadoop/hadoop-daemon.sh start datanode"))
+    else:
         node.routable_control_ip = True
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo /opt/hadoop/bin/hdfs namenode -format PEARC18"))
