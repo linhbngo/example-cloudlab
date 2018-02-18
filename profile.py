@@ -52,17 +52,13 @@ for i in range(params.workerCount + 1):
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo tar xzf hadoop-3.0.0.tar.gz -C /opt/"))
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo cp /local/repository/master /opt/hadoop-3.0.0/ect/hadoop/"))
-    node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo cp /local/repository/slaves /opt/hadoop-3.0.0/etc/hadoop/workers"))
-    node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo cp /local/repository/core-site.xml /opt/hadoop-3.0.0/etc/hadoop/core-site.xml"))
-    node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo apt-get update -y"))
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo apt-get install -y default-jdk"))
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/"))    
+                                  command="sudo cp /local/repository/hadoop-env.sh /opt/hadoop-3.0.0/ect/hadoop/hadoop-env.sh"))    
+    node.addService(rspec.Execute(shell="/bin/sh",
+                                  command="sudo cp /local/repository/core-site.xml /opt/hadoop-3.0.0/etc/hadoop/core-site.xml"))  
     if i != 0:
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo sleep 30"))
