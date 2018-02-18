@@ -12,10 +12,9 @@ tourDescription = "This profile provides a baseline Ubuntu 14.4 image"
 #  
 tour = IG.Tour()
 tour.Description(IG.Tour.TEXT,tourDescription)
-tour.Instructions(IG.Tour.MARKDOWN,tourInstructions)
 request.addTour(tour)
 
-node = request.RawPC("node" + str(i))
+node = request.RawPC("basenode")
 node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU14-64-STD"
 
 node.addService(rspec.Execute(shell="/bin/sh",
