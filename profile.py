@@ -43,7 +43,7 @@ for i in range(4):
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo apt-get install -y default-jdk"))
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/"))    
+                                  command="export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/"))    
     if i != 0:
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo sleep 60"))
