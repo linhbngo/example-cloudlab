@@ -56,7 +56,7 @@ for i in range(params.workerCount + 1):
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo apt-get install -y default-jdk"))
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo cp /local/repository/hadoop-env.sh /opt/hadoop-3.0.0/ect/hadoop/hadoop-env.sh"))    
+                                  command="sudo cp /local/repository/hadoop-env.sh /opt/hadoop-3.0.0/etc/hadoop/hadoop-env.sh"))    
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo cp /local/repository/core-site.xml /opt/hadoop-3.0.0/etc/hadoop/core-site.xml"))  
     if i != 0:
