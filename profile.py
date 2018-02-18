@@ -63,7 +63,7 @@ for i in range(params.workerCount + 1):
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo sleep 30"))
         node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo /opt/hadoop-3.0.0/bin/hadoop-daemon.sh start datanode"))
+                                      command="sudo /opt/hadoop-3.0.0/bin/hdfs --daemon start datanode"))
     else:
         node.routable_control_ip = True
         node.addService(rspec.Execute(shell="/bin/sh",
