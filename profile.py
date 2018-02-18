@@ -35,7 +35,7 @@ for i in range(4):
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo tar xzf hadoop-3.0.0.tar.gz -C /opt/"))
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo cp /local/repository/master /opt/hadoop-3.0.0/ect/hadoop/master"))
+                                  command="sudo cp /local/repository/master /opt/hadoop-3.0.0/ect/hadoop/"))
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo cp /local/repository/slaves /opt/hadoop-3.0.0/etc/hadoop/workers"))
     node.addService(rspec.Execute(shell="/bin/sh",
