@@ -40,36 +40,42 @@ link = request.LAN("lan")
 
 # Generate the nodes
 for i in range(params.workerCount + 1):
-    node = request.XenVM("node" + str(i))
+    if  i == 0:
+      node = request.XenVM("namenode")
+    else: 
+      node = request.XenVM("datanode-" + str(i))
+      
     node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU16-64-STD"
+    
     iface = node.addInterface("if" + str(i))
     iface.component_id = "eth1"
     iface.addAddress(rspec.IPv4Address("192.168.1." + str(i + 1), "255.255.255.0"))
     link.addInterface(iface)
     
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo wget http://apache.cs.utah.edu/hadoop/common/hadoop-3.0.0/hadoop-3.0.0.tar.gz"))
+                                  command="sudo wget http://apache.cs.utah.edu/hadoop/common/hadoop-3.1.1/hadoop-3.1.1.tar.gz"))
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo tar xzf hadoop-3.0.0.tar.gz -C /opt/"))
+                                  command="sudo tar xzf hadoop-3.1.1.tar.gz -C /opt/"))
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo apt-get update -y"))
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo apt-get install -y default-jdk"))
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo cp /local/repository/hadoop-env.sh /opt/hadoop-3.0.0/etc/hadoop/hadoop-env.sh"))    
+                                  command="sudo cp /local/repository/hadoop-env.sh /opt/hadoop-3.1.1/etc/hadoop/hadoop-env.sh"))    
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo cp /local/repository/core-site.xml /opt/hadoop-3.0.0/etc/hadoop/core-site.xml"))  
+                                  command="sudo cp /local/repository/core-site.xml /opt/hadoop-3.1.1/etc/hadoop/core-site.xml"))  
+    
     if i != 0:
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo sleep 30"))
         node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo /opt/hadoop-3.0.0/bin/hdfs --daemon start datanode"))
+                                      command="sudo /opt/hadoop-3.1.1/bin/hdfs --daemon start datanode"))
     else:
         node.routable_control_ip = True
         node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo /opt/hadoop-3.0.0/bin/hdfs namenode -format PEARC18"))
+                                      command="sudo /opt/hadoop-3.1.1/bin/hdfs namenode -format CloudLab-Hadoop"))
         node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo /opt/hadoop-3.0.0/bin/hdfs --daemon start namenode"))
+                                      command="sudo /opt/hadoop-3.1.1/bin/hdfs --daemon start namenode"))
 
 # Print the RSpec to the enclosing page.
 portal.context.printRequestRSpec(request)
