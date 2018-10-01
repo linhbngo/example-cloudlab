@@ -24,7 +24,8 @@ tourInstructions = \
 ### Basic Instructions
 Once your experiment nodes have booted, and this profile's configuration scripts \
 have finished deploying Hadoop inside your experiment, you'll be able to visit 
-[the HDFS Web UI](http://{host-%s}:9870) (approx. 5-15 minutes).  
+[the HDFS Web UI](http://{host-%s}:9870) and 
+[the Yarn Web UI](http://{host-%s}:8088) (approx. 5-15 minutes). 
 """ % (params.controllerHost)
 
 #
@@ -64,18 +65,23 @@ for i in range(params.workerCount + 1):
                                   command="sudo cp /local/repository/hadoop-env.sh /opt/hadoop-3.1.1/etc/hadoop/hadoop-env.sh"))    
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo cp /local/repository/core-site.xml /opt/hadoop-3.1.1/etc/hadoop/core-site.xml"))  
-    
+    node.addService(rspec.Execute(shell="/bin/sh",
+                                  command="sudo cp /local/repository/yarn-site.xml /opt/hadoop-3.1.1/etc/hadoop/yarn-site.xml"))   
     if i != 0:
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo sleep 30"))
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo /opt/hadoop-3.1.1/bin/hdfs --daemon start datanode"))
+        node.addService(rspec.Execute(shell="/bin/sh",
+                                      command="sudo /opt/hadoop-3.1.1/bin/yarn nodemanager"))
     else:
         node.routable_control_ip = True
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo /opt/hadoop-3.1.1/bin/hdfs namenode -format CloudLab-Hadoop"))
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo /opt/hadoop-3.1.1/bin/hdfs --daemon start namenode"))
+        node.addService(rspec.Execute(shell="/bin/sh",
+                                      command="sudo /opt/hadoop-3.1.1/bin/yarn resourcemanager"))
 
 # Print the RSpec to the enclosing page.
 portal.context.printRequestRSpec(request)
