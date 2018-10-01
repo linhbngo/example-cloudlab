@@ -22,10 +22,9 @@ and customizable number of DataNodes."
 tourInstructions = \
   """
 ### Basic Instructions
-Once your experiment nodes have booted, and this profile's configuration scripts \
+Once your experiment nodes have booted, and this profile's configuration scripts 
 have finished deploying Hadoop inside your experiment, you'll be able to visit 
-[the HDFS Web UI](http://{host-%s}:9870) and 
-[the Yarn Web UI](http://{host-%s}:8088) (approx. 5-15 minutes). 
+[the HDFS Web UI](http://{host-%s}:9870) and [the Yarn Web UI](http://{host-%s}:8088) (approx. 5-15 minutes). 
 """ % (params.controllerHost)
 
 #
