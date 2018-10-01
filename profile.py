@@ -25,7 +25,7 @@ tourInstructions = \
 Once your experiment nodes have booted, and this profile's configuration scripts 
 have finished deploying Hadoop inside your experiment, you'll be able to visit 
 [the HDFS Web UI](http://{host-%s}:9870) and [the Yarn Web UI](http://{host-%s}:8088) (approx. 5-15 minutes). 
-""" % (params.controllerHost)
+""" % (params.controllerHost, params.controllerHost)
 
 #
 # Setup the Tour info with the above description and instructions.
