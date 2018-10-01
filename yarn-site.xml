@@ -27,7 +27,7 @@
   <property>
     <description>The hostname of the RM.</description>
     <name>yarn.resourcemanager.hostname</name>
-    <value>0.0.0.0</value>
+    <value>192.168.1.1</value>
   </property>    
   
   <property>
