@@ -73,7 +73,7 @@ for i in range(params.workerCount + 1):
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo /opt/hadoop-3.1.1/bin/hdfs --daemon start datanode"))
         node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo /opt/hadoop-3.1.1/bin/yarn nodemanager"))
+                                      command="sudo /opt/hadoop-3.1.1/bin/yarn --daemon start nodemanager"))
     else:
         node.routable_control_ip = True
         node.addService(rspec.Execute(shell="/bin/sh",
@@ -81,7 +81,7 @@ for i in range(params.workerCount + 1):
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo /opt/hadoop-3.1.1/bin/hdfs --daemon start namenode"))
         node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo /opt/hadoop-3.1.1/bin/yarn resourcemanager"))
+                                      command="sudo /opt/hadoop-3.1.1/bin/yarn --daemon start resourcemanager"))
 
 # Print the RSpec to the enclosing page.
 portal.context.printRequestRSpec(request)
