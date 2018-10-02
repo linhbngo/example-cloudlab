@@ -27,38 +27,6 @@
   <property>
     <description>The hostname of the RM.</description>
     <name>yarn.resourcemanager.hostname</name>
-    <value>192.168.1.1</value>
+    <value>HOSTNAME</value>
   </property>    
-  
-  <property>
-    <description>The address of the applications manager interface in the RM.</description>
-    <name>yarn.resourcemanager.address</name>
-    <value>${yarn.resourcemanager.hostname}:8032</value>
-  </property>
-  <property>
-    <description>The address of the scheduler interface.</description>
-    <name>yarn.resourcemanager.scheduler.address</name>
-    <value>${yarn.resourcemanager.hostname}:8030</value>
-  </property>
-
-  <property>
-    <description>
-      The https address of the RM web application.
-      If only a host is provided as the value,
-      the webapp will be served on a random port.
-    </description>
-    <name>yarn.resourcemanager.webapp.https.address</name>
-    <value>${yarn.resourcemanager.hostname}:8090</value>
-  </property>
-
-  <property>
-    <name>yarn.resourcemanager.resource-tracker.address</name>
-    <value>${yarn.resourcemanager.hostname}:8031</value>
-  </property>
-  <property>
-    <description>The address of the RM admin interface.</description>
-    <name>yarn.resourcemanager.admin.address</name>
-    <value>${yarn.resourcemanager.hostname}:8033</value>
-  </property>
-
 </configuration>
