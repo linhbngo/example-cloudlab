@@ -19,7 +19,7 @@
 <configuration>
   <property>
     <name>fs.default.name</name>
-    <value>hdfs://192.168.1.1:8020</value>
+    <value>hdfs://HOSTNAME:8020</value>
     <description>The name of the default file system.  Either the
       literal string "local" or a host:port for NDFS.
     </description>
