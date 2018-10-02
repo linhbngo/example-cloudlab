@@ -51,7 +51,8 @@ for i in range(params.workerCount + 1):
     iface.component_id = "eth1"
     iface.addAddress(rspec.IPv4Address("192.168.1." + str(i + 1), "255.255.255.0"))
     link.addInterface(iface)
-    
+    node.addService(rspec.Execute(shell="/bin/sh",
+                                  command="sudo bash /local/repository/setup_ssh.sh"))
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo wget http://apache.cs.utah.edu/hadoop/common/hadoop-3.1.1/hadoop-3.1.1.tar.gz"))
     node.addService(rspec.Execute(shell="/bin/sh",
@@ -59,9 +60,7 @@ for i in range(params.workerCount + 1):
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo apt-get update -y"))
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo apt-get install -y default-jdk"))
-    node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo bash /local/repository/setup_ssh.sh"))
+                                  command="sudo apt-get install -y default-jdk"))    
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo bash /local/repository/setup_xml.sh"))
     if i != 0:
