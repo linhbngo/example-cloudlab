@@ -78,6 +78,8 @@ for i in range(params.workerCount + 1):
                                       command="sudo /opt/hadoop-3.1.1/bin/hdfs --daemon start namenode"))
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo /opt/hadoop-3.1.1/bin/yarn --daemon start resourcemanager"))
+        node.addService(rspec.Execute(shell="/bin/sh",
+                                      command="sudo bash /local/repository/port_forwarding.sh"))
 
 # Print the RSpec to the enclosing page.
 portal.context.printRequestRSpec(request)
