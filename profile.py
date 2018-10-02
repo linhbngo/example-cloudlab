@@ -61,9 +61,13 @@ for i in range(params.workerCount + 1):
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo apt-get install -y default-jdk"))
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo cp /local/repository/hadoop-env.sh /opt/hadoop-3.1.1/etc/hadoop/hadoop-env.sh"))    
+                                  command="sudo cp /local/repository/hadoop-env.sh /opt/hadoop-3.1.1/etc/hadoop/hadoop-env.sh"))
+    node.addService(rspec.Execute(shell="/bin/sh",
+                                  command='sudo sed -i -e "s/HOSTNAME/$(hostname)/g" /local/repository/core-site.xml'))
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo cp /local/repository/core-site.xml /opt/hadoop-3.1.1/etc/hadoop/core-site.xml"))  
+    node.addService(rspec.Execute(shell="/bin/sh",
+                                  command='sudo sed -i -e "s/HOSTNAME/$(hostname)/g" /local/repository/yarn-site.xml'))
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo cp /local/repository/yarn-site.xml /opt/hadoop-3.1.1/etc/hadoop/yarn-site.xml"))   
     if i != 0:
