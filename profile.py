@@ -41,11 +41,11 @@ link = request.LAN("lan")
 # Generate the nodes
 for i in range(params.workerCount + 1):
     if  i == 0:
-      node = request.XenVM("namenode")
+      node = request.RawPC("namenode")
     else: 
-      node = request.XenVM("datanode-" + str(i))
+      node = request.RawPC("datanode-" + str(i))
       
-    node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU16-64-STD"
+    node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU14-64-ARM"
     
     iface = node.addInterface("if" + str(i))
     iface.component_id = "eth1"
