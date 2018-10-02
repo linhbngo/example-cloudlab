@@ -10,7 +10,7 @@ pc.defineParameter("workerCount",
                    portal.ParameterType.INTEGER, 3)
 
 pc.defineParameter("controllerHost", "Name of NameNode",
-                   portal.ParameterType.STRING, "node0", advanced=True,
+                   portal.ParameterType.STRING, "namenode", advanced=True,
                    longDescription="The short name of the Hadoop NameNode.  You shold leave \
                    this alone unless you really want the hostname to change.")
 
