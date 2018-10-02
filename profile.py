@@ -45,7 +45,7 @@ for i in range(params.workerCount + 1):
     else: 
       node = request.RawPC("datanode-" + str(i))
       
-    node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU14-64-ARM"
+    node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU16-64-ARM"
     
     iface = node.addInterface("if" + str(i))
     iface.component_id = "eth1"
