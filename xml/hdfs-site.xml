@@ -21,6 +21,12 @@
     <description>If this is a comma-delimited list of directories then the name table is 
     replicated in all of the directories, for redundancy.
     </description>
-    <final>true</final>
+  </property> 
+  <property>
+    <name>dfs.datanode.data.dir</name>
+    <value>/hadoop/datanode</value>
+    <description>Comma separated list of paths on the local filesystem of a 
+      DataNode where it should store its blocks.
+    </description>
   </property> 
 </configuration>
