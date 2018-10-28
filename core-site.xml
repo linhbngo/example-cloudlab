@@ -18,11 +18,18 @@
 
 <configuration>
   <property>
-    <name>fs.default.name</name>
+    <name>fs.defaultFS</name>
     <value>hdfs://192.168.1.1:8020</value>
     <description>The name of the default file system.  Either the
       literal string "local" or a host:port for NDFS.
     </description>
     <final>true</final>
   </property>
+  <property>
+    <name>io.file.buffer.size</name>
+    <value>2097152</value>
+    <description>Size of read/write buffer used in SequenceFiles.
+    </description>
+  </property>
+  
 </configuration>
