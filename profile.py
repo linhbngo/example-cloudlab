@@ -44,7 +44,9 @@ for i in range(params.workerCount + 1):
       node = request.RawPC("namenode")
     else: 
       node = request.RawPC("datanode-" + str(i))
-      
+    bs = node.Blockstore("bs", "/hadoop")
+    bs.size = "500GB"
+    
     node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU16-64-ARM"
     
     iface = node.addInterface("if" + str(i))
@@ -54,13 +56,7 @@ for i in range(params.workerCount + 1):
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo bash /local/repository/setup_ssh.sh"))
     node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo wget http://apache.cs.utah.edu/hadoop/common/hadoop-3.1.1/hadoop-3.1.1.tar.gz"))
-    node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo tar xzf hadoop-3.1.1.tar.gz -C /opt/"))
-    node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo apt-get update -y"))
-    node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo apt-get install -y default-jdk"))    
+                                  command="sudo bash /local/repository/setup_hadoop.sh"))   
     node.addService(rspec.Execute(shell="/bin/sh",
                                   command="sudo bash /local/repository/setup_xml.sh"))
     if i != 0:
