@@ -45,7 +45,7 @@ for i in range(params.workerCount + 1):
     else: 
       node = request.RawPC("datanode-" + str(i))
     bs = node.Blockstore("bs" + str(i), "/hadoop")
-    bs.size = "500GB"
+    bs.size = "50GB"
     
     node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU16-64-ARM"
     
