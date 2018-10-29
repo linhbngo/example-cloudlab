@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 sudo su
-bash -c "echo 'export HADOOP_HOME=/opt/hadoop-3.1.1/' >> /etc/profile"
+bash -c "echo 'HADOOP_HOME=/opt/hadoop-3.1.1/' >> /etc/profile"
 bash -c "echo 'export PATH=/opt/hadoop-3.1.1/bin:$PATH' >> /etc/profile"
 
 source /etc/profile
