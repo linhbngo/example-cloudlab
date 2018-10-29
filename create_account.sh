@@ -1,7 +1,8 @@
 #!/bin/bash
 set -x
-sudo bash -c "echo 'export HADOOP_HOME=/opt/hadoop-3.1.1/' >> /etc/profile"
-sudo bash -c "echo 'export PATH=/opt/hadoop-3.1.1/bin:$PATH' >> /etc/profile"
+sudo su
+bash -c "echo 'export HADOOP_HOME=/opt/hadoop-3.1.1/' >> /etc/profile"
+bash -c "echo 'export PATH=/opt/hadoop-3.1.1/bin:$PATH' >> /etc/profile"
 
 source /etc/profile
 cd /users
@@ -12,13 +13,13 @@ do
   (( i++ ))
 done < <(find . -mindepth 1 -maxdepth 1 -type d \( ! -iname ".*" \) | sed 's|^\./||g')
 
-sudo groupadd hadoop
+groupadd hadoop
 
 for j in "${array[@]}"
 do
-  sudo usermod -a -G hadoop $j
-  sudo hdfs dfs -mkdir -p /user/$j
-  sudo hdfs dfs -chown $j:hadoop /user/$j
+  usermod -a -G hadoop $j
+  hdfs dfs -mkdir -p /user/$j
+  hdfs dfs -chown $j:hadoop /user/$j
   sudo hdfs dfs -chmod 755 /user/$j
 done
 
