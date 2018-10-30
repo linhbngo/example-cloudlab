@@ -29,4 +29,8 @@
       DataNode where it should store its blocks.
     </description>
   </property> 
+  <property>
+    <name>dfs.permissions</name>
+    <value>false</value>
+  </property>  
 </configuration>
