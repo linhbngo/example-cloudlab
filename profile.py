@@ -43,7 +43,7 @@ for i in range(params.workerCount + 1):
     if  i == 0:
       node = request.RawPC("namenode")
     else: 
-      node = request.RawPC("datanode-" + str(i))
+      node = request.RawPC("datanode" + str(i))
     bs = node.Blockstore("bs" + str(i), "/hadoop")
     bs.size = "50GB"
     
