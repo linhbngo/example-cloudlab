@@ -69,7 +69,7 @@ for i in range(params.workerCount + 1):
     else:
         node.routable_control_ip = True        
         node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo bash /local/repository/start_hadoop.sh))
+                                      command="sudo bash /local/repository/start_hadoop.sh"))
         node.addService(rspec.Execute(shell="/bin/sh",
                                       command="sudo bash /local/repository/port_forwarding.sh"))
         node.addService(rspec.Execute(shell="/bin/sh",
