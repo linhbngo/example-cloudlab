@@ -41,7 +41,7 @@
   </property>
     <property>
     <name>mapreduce.jobhistory.webapp.address</name>
-    <value>192.168.1.1</value>
+    <value>0.0.0.0:19888</value>
     <description>Default port is 19888.
     </description>
   </property>
