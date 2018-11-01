@@ -37,7 +37,9 @@ node = Node( "namenode", True )
 node.disk_image = IMAGE
 node.addService( RSpec.Install( SETUP, "/tmp" ) )
 node.addService( RSpec.Execute( "sh", "sudo /tmp/setup/hadoop-setup.sh" ) )
+node.addService( RSpec.Execute( "sh", "sudo bash /local/repository/setup_hadoop.sh"))
 node.addService( RSpec.Execute( "sh", "sudo bash /local/repository/create_account.sh"))
+
 iface = node.addInterface( "if0" )
 lan.addInterface( iface )
 rspec.addResource( node )
@@ -46,6 +48,8 @@ node = Node( "resourcemanager", True )
 node.disk_image = IMAGE
 node.addService( RSpec.Install( SETUP, "/tmp" ) )
 node.addService( RSpec.Execute( "sh", "sudo /tmp/setup/hadoop-setup.sh" ) )
+node.addService( RSpec.Execute( "sh", "sudo bash /local/repository/setup_hadoop.sh"))
+
 iface = node.addInterface( "if0" )
 lan.addInterface( iface )
 rspec.addResource( node )
@@ -55,6 +59,8 @@ for i in range( params.n ):
     node.disk_image = IMAGE
     node.addService( RSpec.Install( SETUP, "/tmp" ) )
     node.addService( RSpec.Execute( "sh", "sudo /tmp/setup/hadoop-setup.sh" ) )
+    node.addService( RSpec.Execute( "sh", "sudo bash /local/repository/setup_hadoop.sh"))
+
     iface = node.addInterface( "if0" )
     lan.addInterface( iface )
     rspec.addResource( node )
