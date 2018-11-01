@@ -1,79 +1,69 @@
 import geni.portal as portal
-import geni.rspec.pg as rspec
-import geni.rspec.igext as IG
+import geni.rspec.pg as RSpec
+import geni.rspec.igext
 
 pc = portal.Context()
-request = rspec.Request()
 
-pc.defineParameter("workerCount",
-                   "Number of Hadoop DataNodes",
-                   portal.ParameterType.INTEGER, 3)
+pc.defineParameter( "n", "Number of slave nodes",
+		    portal.ParameterType.INTEGER, 3 )
 
-pc.defineParameter("controllerHost", "Name of NameNode",
-                   portal.ParameterType.STRING, "namenode", advanced=True,
-                   longDescription="The short name of the Hadoop NameNode.  You shold leave \
-                   this alone unless you really want the hostname to change.")
+pc.defineParameter( "raw", "Use physical nodes",
+                    portal.ParameterType.BOOLEAN, False )
+
+pc.defineParameter( "mem", "Memory per VM",
+		    portal.ParameterType.INTEGER, 256 )
 
 params = pc.bindParameters()
 
-tourDescription = "This profile provides a configurable Hadoop testbed with one NameNode \
-and customizable number of DataNodes."
+IMAGE = "urn:publicid:IDN+emulab.net+image+emulab-ops//hadoop-273"
+SETUP = "http://www.emulab.net/downloads/hadoop-2.7.3-setup.tar.gz"
 
-tourInstructions = \
-  """
-### Basic Instructions
-Once your experiment nodes have booted, and this profile's configuration scripts 
-have finished deploying Hadoop inside your experiment, you'll be able to visit 
-[the HDFS Web UI](http://{host-%s}:9870) and [the Yarn Web UI](http://{host-%s}:8089) (approx. 5-15 minutes). 
-""" % (params.controllerHost, params.controllerHost)
-
-#
-# Setup the Tour info with the above description and instructions.
-#  
-tour = IG.Tour()
-tour.Description(IG.Tour.TEXT,tourDescription)
-tour.Instructions(IG.Tour.MARKDOWN,tourInstructions)
-request.addTour(tour)
-
-# Create a link with type LAN
-link = request.LAN("lan")
-
-# Generate the nodes
-for i in range(params.workerCount + 1):
-    if  i == 0:
-      node = request.RawPC("namenode")
-    else: 
-      node = request.RawPC("datanode" + str(i))
-    bs = node.Blockstore("bs" + str(i), "/hadoop")
-    bs.size = "50GB"
-    
-    node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU16-64-ARM"
-    
-    iface = node.addInterface("if" + str(i))
-    iface.component_id = "eth1"
-    iface.addAddress(rspec.IPv4Address("192.168.1." + str(i + 1), "255.255.255.0"))
-    link.addInterface(iface)
-    node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo bash /local/repository/setup_ssh.sh"))
-    node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo bash /local/repository/setup_hadoop.sh"))   
-    node.addService(rspec.Execute(shell="/bin/sh",
-                                  command="sudo bash /local/repository/setup_xml.sh"))
-    if i != 0:
-        node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo sleep 30"))
-        node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo /opt/hadoop-3.1.1/bin/hdfs --daemon start datanode"))
-        node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo /opt/hadoop-3.1.1/bin/yarn --daemon start nodemanager"))
+def Node( name, public ):
+    if params.raw:
+        return RSpec.RawPC( name )
     else:
-        node.routable_control_ip = True        
-        node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo bash /local/repository/start_hadoop.sh"))
-        node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo bash /local/repository/port_forwarding.sh"))
-        node.addService(rspec.Execute(shell="/bin/sh",
-                                      command="sudo bash /local/repository/create_account.sh"))
+        vm = geni.rspec.igext.XenVM( name )
+        vm.ram = params.mem
+        if public:
+            vm.routable_control_ip = True
+        return vm
 
-# Print the RSpec to the enclosing page.
-portal.context.printRequestRSpec(request)
+rspec = RSpec.Request()
+
+lan = RSpec.LAN()
+rspec.addResource( lan )
+
+node = Node( "namenode", True )
+node.disk_image = IMAGE
+node.addService( RSpec.Install( SETUP, "/tmp" ) )
+node.addService( RSpec.Execute( "sh", "sudo /tmp/setup/hadoop-setup.sh" ) )
+node.addService( RSpec.Execute( "sh", "sudo bash /local/repository/create_account.sh"))
+iface = node.addInterface( "if0" )
+lan.addInterface( iface )
+rspec.addResource( node )
+
+node = Node( "resourcemanager", True )
+node.disk_image = IMAGE
+node.addService( RSpec.Install( SETUP, "/tmp" ) )
+node.addService( RSpec.Execute( "sh", "sudo /tmp/setup/hadoop-setup.sh" ) )
+iface = node.addInterface( "if0" )
+lan.addInterface( iface )
+rspec.addResource( node )
+
+for i in range( params.n ):
+    node = Node( "slave" + str( i ), False )
+    node.disk_image = IMAGE
+    node.addService( RSpec.Install( SETUP, "/tmp" ) )
+    node.addService( RSpec.Execute( "sh", "sudo /tmp/setup/hadoop-setup.sh" ) )
+    iface = node.addInterface( "if0" )
+    lan.addInterface( iface )
+    rspec.addResource( node )
+
+from lxml import etree as ET
+
+tour = geni.rspec.igext.Tour()
+tour.Description( geni.rspec.igext.Tour.TEXT, "A cluster running Hadoop 2.7.3. It includes a name node, a resource manager, and as many slaves as you choose." )
+tour.Instructions( geni.rspec.igext.Tour.MARKDOWN, "After your instance boots (approx. 5-10 minutes), you can log into the resource manager node and submit jobs.  [The HDFS web UI](http://{host-namenode}:50070/) and [the resource manager UI](http://{host-resourcemanager}:8088/) will also become available." )
+rspec.addTour( tour )
+
+pc.printRequestRSpec( rspec )
