@@ -2,14 +2,14 @@
 set -x
 sudo su
 if hostname | grep -q namenode; then
-  hdfs namenode -format CloudLab-Hadoop
-  hdfs --daemon start namenode
-  yarn --daemon start resourcemanager
-  hdfs dfs -mkdir /user
-  hdfs dfs -mkdir /tmp
-  hdfs dfs -mkdir /tmp/hadoop-yarn
-  hdfs dfs -mkdir /tmp/hadoop-yarn/staging
-  hdfs dfs -chmod 1777 /tmp
-  hdfs dfs -chmod 1777 /tmp/hadoop-yarn
-  hdfs dfs -chmod 1777 /tmp/hadoop-yarn/staging
+  /opt/hadoop-3.1.1/bin/hdfs namenode -format CloudLab-Hadoop
+  /opt/hadoop-3.1.1/bin/hdfs --daemon start namenode
+  /opt/hadoop-3.1.1/bin/yarn --daemon start resourcemanager
+  /opt/hadoop-3.1.1/bin/hdfs dfs -mkdir /user
+  /opt/hadoop-3.1.1/bin/hdfs dfs -mkdir /tmp
+  /opt/hadoop-3.1.1/bin/hdfs dfs -mkdir /tmp/hadoop-yarn
+  /opt/hadoop-3.1.1/bin/hdfs dfs -mkdir /tmp/hadoop-yarn/staging
+  /opt/hadoop-3.1.1/bin/hdfs dfs -chmod 1777 /tmp
+  /opt/hadoop-3.1.1/bin/hdfs dfs -chmod 1777 /tmp/hadoop-yarn
+  /opt/hadoop-3.1.1/bin/hdfs dfs -chmod 1777 /tmp/hadoop-yarn/staging
 fi
