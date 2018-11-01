@@ -60,8 +60,8 @@ for i in range( params.n ):
     node.addService( RSpec.Install( SETUP, "/tmp" ) )
     node.addService( RSpec.Execute( "sh", "sudo /tmp/setup/hadoop-setup.sh" ) )
     node.addService( RSpec.Execute( "sh", "sudo bash /local/repository/setup_hadoop.sh"))
-    node.addService(rspec.Execute(  "sh", "sudo /usr/local/hadoop-2.7.3/bin/hdfs --daemon start datanode"))
-    node.addService(rspec.Execute(  "sh", "sudo /usr/local/hadoop-2.7.3/bin/hdfs --daemon start nodemanager"))
+    #node.addService(rspec.Execute(  "sh", "sudo /usr/local/hadoop-2.7.3/bin/hdfs --daemon start datanode"))
+    #node.addService(rspec.Execute(  "sh", "sudo /usr/local/hadoop-2.7.3/bin/hdfs --daemon start nodemanager"))
 
     iface = node.addInterface( "if0" )
     lan.addInterface( iface )
