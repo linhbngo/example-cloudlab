@@ -4,7 +4,7 @@ import geni.rspec.igext
 
 pc = portal.Context()
 
-pc.defineParameter( "n", "Number of slave nodes",
+pc.defineParameter( "n", "Number of worker nodes",
 		    portal.ParameterType.INTEGER, 3 )
 
 pc.defineParameter( "raw", "Use physical nodes",
@@ -70,7 +70,7 @@ for i in range( params.n ):
 from lxml import etree as ET
 
 tour = geni.rspec.igext.Tour()
-tour.Description( geni.rspec.igext.Tour.TEXT, "A cluster running Hadoop 2.7.3. It includes a name node, a resource manager, and as many slaves as you choose." )
+tour.Description( geni.rspec.igext.Tour.TEXT, "A cluster running Hadoop 2.7.3. It includes a name node, a resource manager, and as many workers as you choose." )
 tour.Instructions( geni.rspec.igext.Tour.MARKDOWN, "After your instance boots (approx. 5-10 minutes), you can log into the resource manager node and submit jobs.  [The HDFS web UI](http://{host-namenode}:50070/) and [the resource manager UI](http://{host-resourcemanager}:8088/) will also become available." )
 rspec.addTour( tour )
 
