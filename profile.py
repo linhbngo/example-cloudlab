@@ -55,7 +55,7 @@ lan.addInterface( iface )
 rspec.addResource( node )
 
 for i in range( params.n ):
-    node = Node( "slave" + str( i ), False )
+    node = Node( "worker-" + str( i ), False )
     node.disk_image = IMAGE
     node.addService( RSpec.Install( SETUP, "/tmp" ) )
     node.addService( RSpec.Execute( "sh", "sudo /tmp/setup/hadoop-setup.sh" ) )
